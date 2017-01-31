@@ -38,13 +38,27 @@ int main(int argc, char** argv) {
     sales3=getSals(div3); //use get sales function to get sales for division 3
     cout<<"Enter the fourth division (out of Southwest, Southeast, Northwest, and Northeast)."<<endl;
     cin>>div4; //Name of division 4
+    sales4=getSals(div4); //use get sales function to get sales for division 4
     
-    //Process/Calculations Here
+    //Process/Calculations Here (use function findHst to find the highest)
+    findHst(sales1, sales2, sales3, sales4, div1, div2, div3, div4);
     
-    //Output Located Here
-
     //Exit
     return 0;
+}
+
+void findHst(float sales1, float sales2, float sales3, float sales4, string div1, string div2, string div3, string div4) {
+    if (sales1>sales2 && sales1>sales3 && sales1>sales4) {
+        cout<<"The division with the most sales was "<<div1<<" with "<<sales1<<" sales."<<endl;
+    } else if (sales2>sales1 && sales2>sales3 && sales2>sales4) {
+        cout<<"The division with the most sales was "<<div2<<" with "<<sales2<<" sales."<<endl;
+    } else if (sales3>sales1 && sales3>sales2 &&sales3>sales4) {
+        cout<<"The division with the most sales was "<<div3<<" with "<<sales3<<" sales."<<endl;
+    } else if (sales4>sales1 && sales4>sales2 && sales4>sales3) {
+        cout<<"The division with the most sales was "<<div4<<" with "<<sales4<<" sales."<<endl;
+    } else {
+        cout<<"There was not one division that had greater sales than all others."<<endl;
+    }
 }
 
 float getSals(string) {
