@@ -1,7 +1,7 @@
 /* 
   File:   main.cpp
   Author: Colleen Carleton
-  Created on February 7, 2017, 4:40 PM
+  Created on February 8, 2017, 1:00 PM
   Purpose: A game where the user inputs a number, and a pair of dice will be 
  * rolled that amount of times. If the two dice end up on the same number after
  * the last roll, then the user guesses what the number was. If they are 
@@ -33,6 +33,7 @@ void copy(int [],int [],int); //Copies array with points
 void sortary(int[], int);   //Sorts array containing scores
 int valsrch(int [], int, int); //Searches sorted array for point values in copy
 int fil2Ary(int[], int[][2], int); //Function that fills 2D array
+int sumPts(int[][2]);
 
 //Executable code begins here!!!
 int main(int argc, char** argv) {
@@ -134,6 +135,7 @@ int main(int argc, char** argv) {
     //Calculate percentage of points
     percent=(static_cast<float>(points)/50)*PERCNT;
     
+    //For more than one player, fill parallel array with username and points
     if (numPlrs>1) {
         usrarry[plyrs-1]=usrName;
         ptsarry[plyrs-1]=points;
@@ -141,12 +143,16 @@ int main(int argc, char** argv) {
     
     }
     
-    //Create 2D array to connect players' names with their scores
+    //Create 2D array to sum both player's points
     const int PLYRNUM=2;
     int ptsclc[POINTSZ][PLYRNUM];
     
     //Call function to fill array
     fil2Ary(ptsarry, ptsclc, POINTSZ);
+    
+    //Call function to sum points
+    int ptsSum=0;
+    ptsSum+=sumPts(ptsclc);
     
     //State results of the game
     //For single player
@@ -208,6 +214,7 @@ int main(int argc, char** argv) {
         for (int scorcnt=0; scorcnt<POINTSZ; scorcnt++) {
             cout<<setw(8)<<usrcopy[scorcnt]<<setw(5)<<ptsarry[scorcnt]<<endl;
         }
+        cout<<"Total points earned: "<<ptsSum<<endl;
     }
     
     
@@ -233,14 +240,18 @@ int valsrch(int ptsarry[], int POINTSZ, int val) {
 }
 
 void copy(int ptsarry[], int ptscopy[], int POINTSZ) {
+    //Copy the points array for sorting
     for(int i=0;i<POINTSZ;i++){
         ptscopy[i]=ptsarry[i];
     }
 }
 
 void sortary(int ptsarry[], int POINTSZ) {
-    bool swap;
-    int temp;
+    //Declare variables
+    bool swap; //Determines whether swap occurred
+    int temp; //Temporarily holds value
+    
+    //Swap according to largest value
     do {
         swap=false;
         for (int count=0; count<(POINTSZ-1); count++) {
@@ -254,7 +265,19 @@ void sortary(int ptsarry[], int POINTSZ) {
     } while (swap);
 }
 
+int sumPts(int ptsclc[][2]) {
+    //Declare variables
+    static int totl=0; //Total points earned
+    
+    //Get sum
+    for (int sum=0; sum<2; sum++) {
+        totl+=ptsclc[sum][0];
+    }
+    return totl;
+}
+
 int fil2Ary(int ptsarry[], int ptsclc[][2], int POINTSZ) {
+    //Fill 2D array to hold points and player's number
     for (int filcnt=0; filcnt<POINTSZ; filcnt++) {
         ptsclc[filcnt][0]=ptsarry[filcnt];
         ptsclc[filcnt][1]=filcnt+1;
